@@ -1,4 +1,0 @@
-#Wed Apr 08 11:26:17 BST 2020
-base.0=C\:\\Users\\Hp\\IdeaProjects\\restaurants_comments\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
-renamed.0=classes.dex
-path.0=classes.dex
