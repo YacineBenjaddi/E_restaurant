@@ -4,15 +4,17 @@ import 'dart:convert';
 import 'package:http/http.dart'
 as http;
 
-import 'User.dart'; // add the http plugin in pubspec.yaml file.
+import '../Model/User.dart'; // add the http plugin in pubspec.yaml file.
 class Services {
-  static const ROOT = 'http://192.168.1.3/Test/UserDB.php';
+  static const ROOT = 'http://192.168.1.5/Test/UserDB.php';
+  static const ROOT1 = 'http://192.168.1.5/Test/Get/User.php';
+  static const _get = 'get';
   static const _CREATE_TABLE_ACTION = 'CREATE_TABLE';
   static const _GET_ALL_ACTION = 'GET_ALL';
   static const _ADD_USER_ACTION = 'ADD_USER';
   static const _UPDATE_USER_ACTION = 'UPDATE_USER';
   static const _DELETE_USER_ACTION = 'DELETE_USER';
-  static const _LOGIN_USER_ACTION = 'LOGIN';
+  static const _GET_ONE_ACTION = 'g';
 
   // Method to create the table Employees.
   static Future<String> createTable() async {
@@ -52,7 +54,7 @@ class Services {
     }*/
 
 
-  static Future<List<User>> getUsers() async {
+  /*static Future<List<User>> getUsers() async {
     try {
       var map = Map<String, dynamic>();
       map['action'] = _GET_ALL_ACTION;
@@ -66,6 +68,28 @@ class Services {
       }
     } catch (e) {
       return List<User>(); // return an empty list on exception/error
+    }
+  }*/
+
+
+  static Future<List<User>> getOneUser(String email) async {
+    try {
+      var map = Map<String, dynamic>();
+      map['action'] = _GET_ONE_ACTION;
+      map['email'] = email;
+      final response = await http.post(ROOT1, body: map);
+      print('getOneUser Response: ${response.body}');
+      if (200 == response.statusCode) {
+        List<User> list = parseResponse(response.body);
+        return list;
+      } else {
+        return List<User>();
+      }
+    } catch (e) {
+      return List<User>();
+
+     //  return an empty list on exceptionerror
+      print('error getOneUser la liste est vide ');
     }
   }
 
@@ -109,6 +133,7 @@ class Services {
       map['password'] = password;
       map['profil'] = profil;
       final response = await http.post(ROOT, body: map);
+      print(" la reponse est : $response le nv nom = $nom");
       print('updateUser Response: ${response.body}');
       if (200 == response.statusCode) {
         return response.body;

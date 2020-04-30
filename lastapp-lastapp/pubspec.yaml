@@ -46,6 +46,11 @@ flutter:
     - assets/images/map.jpg
     - assets/images/bback.png
     - assets/images/dest.jpg
+    - assets/images/cinema.jpg
+    - assets/images/restaurant.jpg
+    - assets/images/library.jpg
+    - assets/images/myphoto.jpg
+
     #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -73,3 +78,18 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+fonts:
+  - family: Gaegu
+    fonts:
+      - asset: assets/fonts/Gaegu-Light.ttf
+        weight: 200
+      - asset: assets/fonts/Gaegu-Regular.ttf
+        weight: 500
+  - family: Tajawal
+    fonts:
+      - asset: assets/fonts/Tajawal-Light.ttf
+        weight: 100
+      - asset: assets/fonts/Tajawal-Medium.ttf
+        weight: 300
+      - asset: assets/fonts/Tajawal-Regular.ttf
+        weight: 500
