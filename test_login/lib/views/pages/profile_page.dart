@@ -2,19 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'EditProfile.dart';
-/*
-class ProfilePage extends StatefulWidget {
-  @override
-  _ProfilePageState createState() => _ProfilePageState();
-}
 
-class _ProfilePageState extends State<ProfilePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text("Profile Page"),
-    );
-  }*/
   class ProfilePage extends StatelessWidget {
     final String value;
     ProfilePage({this.value});
@@ -33,10 +21,9 @@ class _ProfilePageState extends State<ProfilePage> {
     UserProfilePage({this.value});
   final String _nom = "";
   final String _profil = "";
- // final String email ="${value}";
+
   final String _prenom = "";
-  //final String _commandes = "23";
-  //final String _fadishes = "24";
+
 
 
   Widget _buildCoverImage(Size screenSize) {
@@ -147,21 +134,14 @@ class _ProfilePageState extends State<ProfilePage> {
   decoration: BoxDecoration(
   color: Color(0xFFEFF4F7),
   ),
-  /*child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          //_buildStatItem("Commandes", _commandes),
-          //_buildStatItem("Likes", _fadishes),
 
-        ],
-      ),*/
   );
   }
 
   Widget _buildemail(BuildContext context) {
   TextStyle bioTextStyle = TextStyle(
   fontFamily: 'Spectral',
-  fontWeight: FontWeight.w400,//try changing weight to w500 if not thin
+  fontWeight: FontWeight.w400,
   fontStyle: FontStyle.italic,
   color: Color(0xFF799497),
   fontSize: 16.0,

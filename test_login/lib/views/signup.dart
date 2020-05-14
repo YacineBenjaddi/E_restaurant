@@ -15,18 +15,17 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   GlobalKey<ScaffoldState> _scaffoldKey;
 
-  // controller for the First Name TextField we are going to create.
-  TextEditingController _nomController;
 
-  // controller for the Last Name TextField we are going to create.
-  TextEditingController _prenomController;
+  TextEditingController _last_nameController;
 
-  // controller for the email TextField we are going to create.
+  TextEditingController _first_nameController;
+
+
   TextEditingController _emailController;
 
-  // controller for the password TextField we are going to create.
+
   TextEditingController _passwordController;
-  TextEditingController _profilController;
+  TextEditingController _profileController;
 
   String _titleProgress;
 
@@ -35,15 +34,15 @@ class _SignupPageState extends State<SignupPage> {
     super.initState();
 
     _titleProgress = widget.title;
-    _scaffoldKey = GlobalKey(); // key to get the context to show a SnackBar
-    _nomController = TextEditingController();
-    _prenomController = TextEditingController();
+    _scaffoldKey = GlobalKey();
+    _last_nameController = TextEditingController();
+    _first_nameController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
-    _profilController = TextEditingController();
+    _profileController = TextEditingController();
   }
 
-  // Method to update title in the AppBar Title
+
   _showProgress(String message) {
     setState(() {
       _titleProgress = message;
@@ -86,24 +85,24 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   _addUser() {
-    if (_nomController.text.isEmpty ||
-        _prenomController.text.isEmpty ||
+    if (_last_nameController.text.isEmpty ||
+        _first_nameController.text.isEmpty ||
         _emailController.text.isEmpty ||
         _passwordController.text.isEmpty ||
-        _profilController.text.isEmpty) {
+        _profileController.text.isEmpty) {
       print('Empty Fields');
       return;
     }
     _showProgress('Adding User...');
     Services.addUser(
-        _nomController.text,
-        _prenomController.text,
+        _last_nameController.text,
+        _first_nameController.text,
         _emailController.text,
         _passwordController.text,
-        _profilController.text)
+        _profileController.text)
         .then((result) {
       if ('success' == result) {
-        // _getUsers(); // Refresh the List after adding each employee...
+
         _clearValues();
         popup();
       }
@@ -111,11 +110,11 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   _clearValues() {
-    _nomController.text = '';
-    _prenomController.text = '';
+    _last_nameController.text = '';
+    _first_nameController.text = '';
     _emailController.text = '';
     _passwordController.text = '';
-    _profilController.text = '';
+    _profileController.text = '';
   }
 
   @override
@@ -128,10 +127,10 @@ class _SignupPageState extends State<SignupPage> {
             Container(
               decoration: new BoxDecoration(
                   image: new DecorationImage(
-                      image: AssetImage('assets/images/dest.jpg'),
+                      image: AssetImage('assets/images/map.jpg'),
                       fit: BoxFit.fill)),
             ),
-            //modif
+
             SingleChildScrollView(
               scrollDirection: Axis.vertical,
               physics: ClampingScrollPhysics(),
@@ -150,7 +149,7 @@ class _SignupPageState extends State<SignupPage> {
                                   color: Colors.green)),
                         ),
                         Container(
-                          padding: EdgeInsets.fromLTRB(20.0, 175.0, 0.0, 0.0),
+                          padding: EdgeInsets.fromLTRB(75.0, 170.0, 0.0, 0.0),
                           child: Text('Register now',
                               style: TextStyle(
                                   fontSize: 40.0, color: Colors.green)),
@@ -164,7 +163,7 @@ class _SignupPageState extends State<SignupPage> {
                       child: Column(
                         children: <Widget>[
                           TextField(
-                            controller: _nomController,
+                            controller: _last_nameController,
                             decoration: InputDecoration(
                                 labelText: 'LAST NAME',
                                 labelStyle: TextStyle(
@@ -174,11 +173,11 @@ class _SignupPageState extends State<SignupPage> {
                                 focusedBorder: UnderlineInputBorder(
                                     borderSide:
                                     BorderSide(color: Colors.green))),
-                            // obscureText: true,
+
                           ),
                           SizedBox(height: 10.0),
                           TextField(
-                            controller: _prenomController,
+                            controller: _first_nameController,
                             decoration: InputDecoration(
                                 labelText: 'FIRST NAME',
                                 labelStyle: TextStyle(
@@ -202,7 +201,7 @@ class _SignupPageState extends State<SignupPage> {
                                 focusedBorder: UnderlineInputBorder(
                                     borderSide:
                                     BorderSide(color: Colors.green))),
-                            //obscureText: true,
+
                           ),
                           SizedBox(height: 10.0),
                           TextField(
@@ -220,7 +219,7 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                           SizedBox(height: 10.0),
                           TextField(
-                            controller: _profilController,
+                            controller: _profileController,
                             decoration: InputDecoration(
                                 labelText: 'PROFIL',
                                 labelStyle: TextStyle(

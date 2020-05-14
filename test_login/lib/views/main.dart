@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:lastapp/views/password/forgot.dart';
 
 import 'option_page/main.dart';
 import 'option_page/restaurant.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/signup': (BuildContext context) => new SignupPage(),
         '/option': (BuildContext context) => new option(),
+        '/forgot' : (BuildContext context) => new ForgotPassword(),
       },
       home: new MyHomePage(),
     );
@@ -37,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<List> _login() async {
     print("user $user password $pass");
     final response =
-        await http.post("http://192.168.100.13/Test/login.php", body: {
+        await http.post("http://192.168.1.5/Test/login.php", body: {
       "email": user.text,
       "password": pass.text,
     });
@@ -47,20 +49,45 @@ class _MyHomePageState extends State<MyHomePage> {
     if (datauser.length == 0) {
       setState(() {
         msg = "Login Fail";
+        PopUp_Login_Fail();
       });
     }
-    if (datauser[0]['profil'] == 'User') {
+    if (datauser[0]['profile'] == 'User') {
       var route = new MaterialPageRoute(
         builder: (BuildContext context) => new Restaurant(value: user.text),
       );
       Navigator.of(context).push(route);
-        // Navigator.pushReplacementNamed(context, '/option');
 
     }
 
     return datauser;
   }
-
+  int PopUp_Login_Fail() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(" ERROR",
+                style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: 'Montserrat')),
+            content: Text("your email or password is incorrect",
+                style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: 'Montserrat')),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -136,9 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           InkWell(
                             onTap: () {
                               _login();
-                              /* if(Services.login(user.text,pass.text) == "User") {
-                      Navigator.of(context).pushNamed('/signup');
-                     }*/
+
                             },
                             child: Container(
                               height: 40.0,
@@ -197,6 +222,24 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                 ),
                               )),
+                      SizedBox(height: 10.0),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('/forgot');
+                        },
+                        child: Text(
+                          "Forgot Password?",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline,
+                            fontFamily: 'Roboto-Regular',
+
+                          ),
+                        )
+                      )
                         ],
                       )),
                 ],

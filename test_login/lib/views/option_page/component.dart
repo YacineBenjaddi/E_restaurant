@@ -34,7 +34,7 @@ class FrostedGlass extends StatelessWidget {
       child: new Container(
           width: screenWidth / 1.5,
           padding: const EdgeInsets.all(15.0),
-          //here we can add color property but im gonna use box decoration
+
           decoration: new BoxDecoration(
               shape: BoxShape.rectangle,
               color: Colors.black.withOpacity(0.4),
@@ -47,7 +47,7 @@ class FrostedGlass extends StatelessWidget {
                 ),
               ]),
           child: new Column(
-            mainAxisSize: MainAxisSize.min, // keep remember to add this line
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               new Text(
                   quote,

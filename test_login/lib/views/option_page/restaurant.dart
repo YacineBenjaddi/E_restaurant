@@ -15,7 +15,11 @@ class Restaurant extends StatelessWidget {
       body: new Stack(
         children: <Widget>[
           new ApplyBackground(quoteObj.imageURL),
-          new ComponentRow(quoteObj.quote, quoteObj.personName, route: new Cinema(),),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new ComponentRow(quoteObj.quote, quoteObj.personName, route: new Cinema(),),
+
+          ),
           SizedBox(height: 10.0),
           Center(
             child: Padding(
@@ -30,7 +34,7 @@ class Restaurant extends StatelessWidget {
                   );
                   Navigator.of(context).push(route);
                   // TODO
-                //  Navigator.push(context, MaterialPageRoute(builder: (context) => App()));
+
                 },
               ),
             ),

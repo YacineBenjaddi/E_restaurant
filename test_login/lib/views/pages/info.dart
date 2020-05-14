@@ -30,7 +30,7 @@ class _InfoPageState extends State<InfoPage> {
     margin: const EdgeInsets.all(3.0),
     height: 345.0,
     width: 290.0,
-    // color: Colors.grey,
+
     child: new Column(
     children: <Widget>[
     new Text(

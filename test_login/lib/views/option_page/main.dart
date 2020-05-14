@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'library.dart';
 import 'restaurant.dart';
 import 'cinema.dart';
-//void main() => runApp(new QuoteApp());
+
 class option extends StatefulWidget {
-//option() : super();
+
 
 final String title = 'E-RESTAURANT';
 

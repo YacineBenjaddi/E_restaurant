@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:lastapp/views/option_page/restaurant.dart';
 
-import '../../service/Services.dart';
 import '../../models/User.dart';
-import 'profile_page.dart';
+import '../../service/Services.dart';
+import '../signup.dart';
 
 class EditProfil extends StatefulWidget {
   final String value;
@@ -19,39 +21,39 @@ class EditProfil extends StatefulWidget {
 }
 
 class EditProfilState extends State<EditProfil> {
-  var id, nom, prenom, email, password, profil;
+  var id, last_name, first_name, email, password, profile;
 
   bool _isUpdating;
   String _titleProgress;
   String _email;
   GlobalKey<ScaffoldState> _scaffoldKey;
   TextEditingController _idController;
-  TextEditingController _nomController;
-  TextEditingController _prenomController;
+  TextEditingController _last_nameController;
+  TextEditingController _first_nameController;
   TextEditingController _emailController;
   TextEditingController _passwordController;
-  TextEditingController _profilController;
+  TextEditingController _profileController;
 
   @override
   void initState() {
     super.initState();
     id;
-    profil = "";
-    nom = "";
-    prenom = "";
+    profile = "";
+    last_name = "";
+    first_name = "";
     email = "";
     password = "";
     _isUpdating = false;
     _email = widget.value;
     _titleProgress = widget.title;
-    _scaffoldKey = GlobalKey(); // key to get the context to show a SnackBar
+    _scaffoldKey = GlobalKey();
     _getOne();
     _idController = TextEditingController();
-    _nomController = TextEditingController();
-    _prenomController = TextEditingController();
+    _last_nameController = TextEditingController();
+    _first_nameController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
-    _profilController = TextEditingController();
+    _profileController = TextEditingController();
     _showValues();
   }
 
@@ -72,7 +74,7 @@ class EditProfilState extends State<EditProfil> {
   Future<List<User>> _getOne() async {
     var msg = "";
     print("getOneUser $_email");
-    final response = await http.post("http://192.168.100.13/Test/get.php", body: {
+    final response = await http.post("http://192.168.1.5/Test/get.php", body: {
       "email": _email,
     });
     var datauser = json.decode(response.body);
@@ -87,11 +89,11 @@ class EditProfilState extends State<EditProfil> {
       setState(() {
         print(datauser);
         id = datauser[0]['id_user'];
-        nom = datauser[0]['nom'];
-        prenom = datauser[0]['prenom'];
+        last_name = datauser[0]['last_name'];
+        first_name = datauser[0]['first_name'];
         email = datauser[0]['email'];
         password = datauser[0]['password'];
-        profil = datauser[0]['profil'];
+        profile = datauser[0]['profile'];
         _showValues();
       });
     }
@@ -105,20 +107,20 @@ class EditProfilState extends State<EditProfil> {
     _showProgress('Updating User...');
     Services.updateUser(
             id.toString(),
-            _nomController.text,
-            _prenomController.text,
+            _last_nameController.text,
+            _first_nameController.text,
             _emailController.text,
             _passwordController.text,
-            _profilController.text)
+            _profileController.text)
         .then((result) {
       if ('success' == result) {
         setState(() {
           _isUpdating = false;
-          nom = _nomController.text;
-          prenom = _prenomController.text;
+          last_name = _last_nameController.text;
+          first_name = _first_nameController.text;
           email = _emailController.text;
           password = _passwordController.text;
-          profil = _profilController.text;
+          profile = _profileController.text;
         });
         _clearValues();
         _showValues();
@@ -131,26 +133,30 @@ class EditProfilState extends State<EditProfil> {
     _showProgress('Deleting User...');
     Services.deleteUser(id.toString()).then((result) {
       if ('success' == result) {
-        Navigator.of(context).pushNamed('/');
+        var route = new MaterialPageRoute(
+          builder: (BuildContext context) => new SignupPage(),
+        );
+        Navigator.of(context).push(route);
+
         Pop_up_Delete();
       }
     });
   }
 
   _clearValues() {
-    _nomController.text = '';
-    _prenomController.text = '';
+    _last_nameController.text = '';
+    _first_nameController.text = '';
     _emailController.text = '';
     _passwordController.text = '';
-    _profilController.text = '';
+    _profileController.text = '';
   }
 
   _showValues() {
-    _nomController.text = nom;
-    _prenomController.text = prenom;
+    _last_nameController.text = last_name;
+    _first_nameController.text = first_name;
     _emailController.text = email;
     _passwordController.text = password;
-    _profilController.text = profil;
+    _profileController.text = profile;
   }
 
   int Pop_up_Update() {
@@ -158,7 +164,7 @@ class EditProfilState extends State<EditProfil> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text(" $nom $prenom ",
+            title: Text(" $last_name $first_name ",
                 style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.normal,
@@ -185,7 +191,7 @@ class EditProfilState extends State<EditProfil> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text(" $nom $prenom ",
+            title: Text(" $last_name $first_name ",
                 style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.normal,
@@ -232,7 +238,6 @@ class EditProfilState extends State<EditProfil> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      //for user profile header
                       Container(
                         padding: EdgeInsets.only(left: 32, right: 32, top: 32),
                         child: Row(
@@ -251,11 +256,15 @@ class EditProfilState extends State<EditProfil> {
                               width: 16,
                             ),
                             Expanded(
+
+
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+
                                 children: <Widget>[
+
                                   Text(
-                                    "$nom $prenom",
+                                    "$last_name $first_name",
                                     style: TextStyle(
                                         color: Colors.grey[800],
                                         fontFamily: "Roboto",
@@ -269,6 +278,7 @@ class EditProfilState extends State<EditProfil> {
                         ),
                       ),
                       Container(
+
                           child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -278,7 +288,7 @@ class EditProfilState extends State<EditProfil> {
                               child: Column(
                                 children: <Widget>[
                                   TextField(
-                                    controller: _nomController,
+                                    controller: _last_nameController,
                                     decoration: InputDecoration(
                                         labelText: "LASTNAME",
                                         labelStyle: TextStyle(
@@ -291,7 +301,7 @@ class EditProfilState extends State<EditProfil> {
                                   ),
                                   SizedBox(height: 10.0),
                                   TextField(
-                                    controller: _prenomController,
+                                    controller: _first_nameController,
                                     decoration: InputDecoration(
                                         labelText: "FIRSTNAME",
                                         labelStyle: TextStyle(
@@ -329,9 +339,9 @@ class EditProfilState extends State<EditProfil> {
                                                 color: Colors.green))),
                                   ),
                                   TextField(
-                                    controller: _profilController,
+                                    controller: _profileController,
                                     decoration: InputDecoration(
-                                        labelText: "PROFIL",
+                                        labelText: "PROFILE",
                                         labelStyle: TextStyle(
                                             fontFamily: 'Montserrat',
                                             fontWeight: FontWeight.bold,
@@ -412,11 +422,10 @@ class EditProfilState extends State<EditProfil> {
                                   ),
                                   InkWell(
                                       onTap: () {
-                                      //  Navigator.of(context)
-                                        //    .pushNamed('/signup');
-                                        //_updateUser();
                                         var route = new MaterialPageRoute(
-                                          builder: (BuildContext context) => new ProfilePage(value: widget.value),
+                                          builder: (BuildContext context) =>
+                                              new Restaurant(
+                                                  value: widget.value),
                                         );
                                         Navigator.of(context).push(route);
                                       },

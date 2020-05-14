@@ -18,7 +18,7 @@ class Restaurant_model extends Model {
 
   void fetchRestau() {
     http
-        .get("http://192.168.100.13/Test/api/restaurants/getRestau.php")
+        .get("http://192.168.1.5/Test/api/restaurants/getRestau.php")
         .then((http.Response response) {
       final List fetchedData = json.decode(response.body);
 

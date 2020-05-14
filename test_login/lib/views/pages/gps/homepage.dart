@@ -4,8 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomePage1 extends StatefulWidget {
-  /*final double long,lat;
-  HomePage({this.long,this.lat});*/
+
   @override
   HomePage1State createState() => HomePage1State();
 }
@@ -301,7 +300,7 @@ Marker blueMarker = Marker(
   ),
 );
 
-//New York Marker
+
 
 Marker newyork1Marker = Marker(
   markerId: MarkerId('newyork1'),

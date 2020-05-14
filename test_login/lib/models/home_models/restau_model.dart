@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class restaurant{
 
-  //final int id_restaurant;
+ 
   final String id;
   final String name;
 

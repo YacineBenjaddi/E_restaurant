@@ -139,8 +139,7 @@ class _frequenlyRestaurant extends State<frequenlyRestaurant> {
           builder: (BuildContext context)=>
         new InfoPage(name: widget.name,imagePath: widget.imagePath,information: widget.information),
       );
-      //print("Card tapped in ${widget.information}");
-     // Navigator.push(context, MaterialPageRoute(builder: (context) => InfoPage()))
+
       Navigator.of(context).push(route);
     }
     ),

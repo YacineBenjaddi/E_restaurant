@@ -16,7 +16,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
  @override
  void initState(){
-
    widget.restaurantmodel.fetchRestau();
    super.initState();
  }
@@ -60,7 +59,6 @@ class _HomePageState extends State<HomePage> {
       child: frequenlyRestaurant(
           id:rs.id,
           name:rs.name,
-          // final String information;
           imagePath:rs.imagePath,
           category:rs.category,
           discount:rs.discount,

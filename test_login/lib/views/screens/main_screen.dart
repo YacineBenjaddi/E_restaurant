@@ -13,22 +13,25 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int currentTabIndex=0;
+  int currentTabIndex=2;
   List<Widget>pages;
   Widget currentPage;
   HomePage homePage;
-  ProfilePage profilPage;
-  //EditProfil editProfil;
+  EditProfil profilPage;
+
   FavPage favPage;
+  @mustCallSuper
   @override
   void initState(){
-    widget.restaurantmodel.fetchRestau();
+
     homePage=HomePage(widget.restaurantmodel);
+    widget.restaurantmodel.fetchRestau();
     favPage=FavPage();
-    profilPage=ProfilePage(value: widget.value);
-    //editProfil=EditProfil();
+    profilPage=EditProfil(value: widget.value);
+
     pages=[homePage,favPage,profilPage];
-    currentPage=homePage;
+    currentPage=profilPage;
+
     super.initState();
   }
   Widget build(BuildContext context) {
@@ -36,6 +39,7 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int index){
           setState(() {
+
             currentTabIndex=index;
             currentPage=pages[index];
           });

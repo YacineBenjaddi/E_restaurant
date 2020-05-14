@@ -8,14 +8,11 @@ import '../gps/homepage.dart';
 import "../../pages/home_page.dart";
 
 
-//void main() => runApp(MyApp());
-
-//var currentRestaurant = restaurantList.restaurants[0];
 
 class InfoPage extends StatelessWidget {
 
   final String name,imagePath,information;
- // final Restaurant_model restaurantmodel;
+
 
   InfoPage({Key key,this.name,this.imagePath,this.information}) : super(key:key);
   @override
@@ -43,7 +40,7 @@ class MainApp extends StatelessWidget {
 
                        ),
                 onPressed: () {
-                 // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+
 
                 })
         ),
@@ -57,8 +54,7 @@ class MainApp extends StatelessWidget {
                   builder: (BuildContext context)=>
                   new HomePage1(),
                 );
-                //print("Card tapped in ${widget.information}");
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => InfoPage()))
+
                 Navigator.of(context).push(route);
               }
           ))
