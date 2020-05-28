@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:lastapp/service/ApiUrl.dart';
 import 'package:lastapp/views/option_page/restaurant.dart';
 
 import '../../models/User.dart';
@@ -75,7 +74,7 @@ class EditProfilState extends State<EditProfil> {
   Future<List<User>> _getOne() async {
     var msg = "";
     print("getOneUser $_email");
-    final response = await http.post(ApiUrl.getOne, body: {
+    final response = await http.post("http://192.168.1.5/Test/get.php", body: {
       "email": _email,
     });
     var datauser = json.decode(response.body);

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:lastapp/service/ApiUrl.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../../models/home_models/restau_model.dart';
@@ -18,7 +19,7 @@ class Restaurant_model extends Model {
 
   void fetchRestau() {
     http
-        .get("http://192.168.1.5/Test/api/restaurants/getRestau.php")
+        .get(ApiUrl.getAllRestaurant)
         .then((http.Response response) {
       final List fetchedData = json.decode(response.body);
 
