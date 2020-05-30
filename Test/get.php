@@ -7,7 +7,7 @@ $queryResult=$connect->query("SELECT * FROM User WHERE email='".$email."' ");
 $result=array();
 
 while ($fetchData=$queryResult->fetch_assoc()) {
-	
+	# code...
 	$result[]=$fetchData;
 }
 echo json_encode($result);
