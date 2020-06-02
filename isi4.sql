@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  Dim 10 mai 2020 à 02:47
--- Version du serveur :  10.4.8-MariaDB
--- Version de PHP :  7.3.11
+-- Généré le : mer. 03 juin 2020 à 01:06
+-- Version du serveur :  10.4.11-MariaDB
+-- Version de PHP : 7.4.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `isi4`
+-- Base de données : `isi4`
 --
 
 -- --------------------------------------------------------
@@ -33,7 +33,7 @@ CREATE TABLE `avis` (
   `id_user` int(11) NOT NULL,
   `id_restaurant` int(11) NOT NULL,
   `note` int(11) NOT NULL,
-  `avis` varchar(200) NOT NULL
+  `comment` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -87,21 +87,26 @@ INSERT INTO `restaurant` (`id_restaurant`, `name`, `imagepath`, `category`, `dis
 
 CREATE TABLE `user` (
   `id_user` int(11) NOT NULL,
-  `nom` varchar(50) NOT NULL,
-  `prenom` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `first_name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `profil` varchar(50) NOT NULL
+  `profile` varchar(50) NOT NULL,
+  `reset` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `user`
 --
 
-INSERT INTO `user` (`id_user`, `nom`, `prenom`, `email`, `password`, `profil`) VALUES
-(1, 'yassine', 'benjaddi', 'yassine@gmail.com', '123', 'etudiant '),
-(3, 'essadiki', 'rid', 'rida.essadiki@uir.ac.ma', '1234', 'User'),
-(4, 'iliass', 'siassi', 'ilias@gmail.com', '1234', 'User');
+INSERT INTO `user` (`id_user`, `last_name`, `first_name`, `email`, `password`, `profile`, `reset`) VALUES
+(1, 'El ouardani', 'Manal', 'manal@gmail.com', '123', 'User', 0),
+(3, 'essadiki', 'rida', 'rida.essadiki@uir.ac.ma', '1234', 'User', 0),
+(11, 'Benjaddi', 'Yassine', 'yacine@gmail.com', '123', 'User', 0),
+(12, 'Syassi', 'ilyas', 'ilyas@gmail.com', '123', 'User', 0),
+(13, 'Belbachir', 'Rania', 'rania@gmail.com', '123', 'User', 0),
+(16, 'lwajdi', 'Ayoub', 'ayou@gmail.com', 'ayoub123', 'User', 0),
+(17, '', 'amine', 'yas', '123', 'User', 0);
 
 --
 -- Index pour les tables déchargées
@@ -143,7 +148,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `avis`
 --
 ALTER TABLE `avis`
-  MODIFY `id_avis` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_avis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `reservation`
@@ -161,7 +166,7 @@ ALTER TABLE `restaurant`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Contraintes pour les tables déchargées
