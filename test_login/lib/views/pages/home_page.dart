@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lastapp/service/scoped_model/main_model.dart';
+import 'package:scoped_model/scoped_model.dart';
 import '../../service/scoped_model/restaurant_model.dart';
 import '../widgets/restaurant_category.dart';
 import '../widgets/home_top_info.dart';
@@ -7,20 +9,19 @@ import '../widgets/frequently_restaurant.dart';
 import '../../models/home_models/restau_model.dart';
 
 class HomePage extends StatefulWidget {
-  final Restaurant_model restaurantmodel;
-  HomePage(this.restaurantmodel);
+  //final Restaurant_model restaurantmodel;
+  //HomePage(this.restaurantmodel);
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
- @override
- void initState(){
-   widget.restaurantmodel.fetchRestau();
-   super.initState();
- }
+  @override
+  void initState(){
 
-
+    // widget.restaurantmodel.fetchRestau();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,10 +46,13 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             SizedBox(height:30.0,),
-            Column(
-
-              children: widget.restaurantmodel.restaurants.map(_buildRestaurantItems).toList(),
-            )
+            ScopedModelDescendant(
+              builder: (BuildContext context,Widget child,MainModel model){
+                return Column(
+                  children: model.restaurants.map(_buildRestaurantItems).toList(),
+                );
+              },
+            ),
           ],
         )
     );
@@ -63,7 +67,10 @@ class _HomePageState extends State<HomePage> {
           category:rs.category,
           discount:rs.discount,
           ratings:rs.ratings,
+          lat: rs.lat,
+          long: rs.long,
           information: rs.information
+
       ),
     );
   }

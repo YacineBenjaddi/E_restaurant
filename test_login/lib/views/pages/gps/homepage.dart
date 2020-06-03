@@ -2,9 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../info_page/main.dart';
 
 class HomePage1 extends StatefulWidget {
-
+  final String name,information,imagePath;
+  final double long,lat;
+  HomePage1({this.name,this.long,this.lat,this.imagePath,this.information});
   @override
   HomePage1State createState() => HomePage1State();
 }
@@ -16,7 +19,7 @@ class HomePage1State extends State<HomePage1> {
   void initState() {
     super.initState();
   }
-    double zoomVal=5.0;
+  double zoomVal=5.0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,9 +27,13 @@ class HomePage1State extends State<HomePage1> {
         leading: IconButton(
             icon: Icon(FontAwesomeIcons.arrowLeft),
             onPressed: () {
-              //
+              var route=new MaterialPageRoute(
+                builder: (BuildContext context)=>
+                new InfoPage(name: widget.name,lat: widget.lat,long: widget.long,imagePath: widget.imagePath,information: widget.information),
+              );
+              Navigator.of(context).push(route);
             }),
-        title: Text("New York"),
+        title: Text("Morroco"),
         actions: <Widget>[
           IconButton(
               icon: Icon(FontAwesomeIcons.search),
@@ -46,41 +53,41 @@ class HomePage1State extends State<HomePage1> {
     );
   }
 
- Widget _zoomminusfunction() {
+  Widget _zoomminusfunction() {
 
     return Align(
       alignment: Alignment.topLeft,
       child: IconButton(
-            icon: Icon(FontAwesomeIcons.searchMinus,color:Color(0xff6200ee)),
-            onPressed: () {
-              zoomVal--;
-             _minus( zoomVal);
-            }),
+          icon: Icon(FontAwesomeIcons.searchMinus,color:Color(0xff6200ee)),
+          onPressed: () {
+            zoomVal--;
+            _minus( zoomVal,widget.lat,widget.long);
+          }),
     );
- }
- Widget _zoomplusfunction() {
-   
+  }
+  Widget _zoomplusfunction() {
+
     return Align(
       alignment: Alignment.topRight,
       child: IconButton(
-            icon: Icon(FontAwesomeIcons.searchPlus,color:Color(0xff6200ee)),
-            onPressed: () {
-              zoomVal++;
-              _plus(zoomVal);
-            }),
+          icon: Icon(FontAwesomeIcons.searchPlus,color:Color(0xff6200ee)),
+          onPressed: () {
+            zoomVal++;
+            _plus(zoomVal,widget.lat,widget.long);
+          }),
     );
- }
-
- Future<void> _minus(double zoomVal) async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(34.019909, -6.825881), zoom: zoomVal)));
-  }
-  Future<void> _plus(double zoomVal) async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(34.019909,-6.825881), zoom: zoomVal)));
   }
 
-  
+  Future<void> _minus(double zoomVal,double lat,double long) async {
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(lat, long), zoom: zoomVal)));
+  }
+  Future<void> _plus(double zoomVal,double lat,double long) async {
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(lat,long), zoom: zoomVal)));
+  }
+
+
   Widget _buildContainer() {
     return Align(
       alignment: Alignment.bottomLeft,
@@ -94,22 +101,8 @@ class HomePage1State extends State<HomePage1> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
-                  "https://lh5.googleusercontent.com/p/AF1QipO3VPL9m-b355xWeg4MXmOQTauFAEkavSluTtJU=w225-h160-k-no",
-                  40.738380, -73.988426,"Gramercy Tavern"),
-            ),
-            SizedBox(width: 10.0),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _boxes(
-                  "https://lh5.googleusercontent.com/p/AF1QipMKRN-1zTYMUVPrH-CcKzfTo6Nai7wdL7D8PMkt=w340-h160-k-no",
-                  40.761421, -73.981667,"Le Bernardin"),
-            ),
-            SizedBox(width: 10.0),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _boxes(
-                  "https://images.unsplash.com/photo-1504940892017-d23b9053d5d4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                  34.019909,-6.825881,"addik restaurant"),
+                  widget.imagePath,
+                  widget.lat,widget.long,widget.name),
             ),
           ],
         ),
@@ -119,40 +112,42 @@ class HomePage1State extends State<HomePage1> {
 
   Widget _boxes(String _image, double lat,double long,String restaurantName) {
     return  GestureDetector(
-        onTap: () {
-          _gotoLocation(lat,long);
-        },
-        child:Container(
-              child: new FittedBox(
-                child: Material(
-                    color: Colors.white,
-                    elevation: 14.0,
-                    borderRadius: BorderRadius.circular(24.0),
-                    shadowColor: Color(0x802196F3),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          width: 180,
-                          height: 200,
-                          child: ClipRRect(
-                            borderRadius: new BorderRadius.circular(24.0),
-                            child: Image(
-                              fit: BoxFit.fill,
-                              image: NetworkImage(_image),
-                            ),
-                          ),),
-                          Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: myDetailsContainer1(restaurantName),
-                          ),
-                        ),
+      onTap: () {
+        _gotoLocation(lat,long);
+      },
+      child:Container(
+        child: new FittedBox(
+          child: Material(
+              color: Colors.white,
+              elevation: 14.0,
+              borderRadius: BorderRadius.circular(24.0),
+              shadowColor: Color(0x802196F3),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    width: 180,
+                    height: 200,
+                    child: ClipRRect(
+                      borderRadius: new BorderRadius.circular(24.0),
+                      child:Image.asset(
+                        widget.imagePath,
+                        fit: BoxFit.cover,
 
-                      ],)
-                ),
-              ),
-            ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: myDetailsContainer1(restaurantName),
+                    ),
+                  ),
+
+                ],)
+          ),
+        ),
+      ),
     );
   }
 
@@ -164,88 +159,88 @@ class HomePage1State extends State<HomePage1> {
           padding: const EdgeInsets.only(left: 8.0),
           child: Container(
               child: Text(restaurantName,
-            style: TextStyle(
-                color: Color(0xff6200ee),
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold),
-          )),
+                style: TextStyle(
+                    color: Color(0xff6200ee),
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold),
+              )),
         ),
         SizedBox(height:5.0),
         Container(
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Container(
-                  child: Text(
-                "4.1",
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 18.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Container(
+                    child: Text(
+                      "4.1",
+                      style: TextStyle(
+                        color: Colors.black54,
+                        fontSize: 18.0,
+                      ),
+                    )),
+                Container(
+                  child: Icon(
+                    FontAwesomeIcons.solidStar,
+                    color: Colors.amber,
+                    size: 15.0,
+                  ),
                 ),
-              )),
-              Container(
-                child: Icon(
-                  FontAwesomeIcons.solidStar,
-                  color: Colors.amber,
-                  size: 15.0,
+                Container(
+                  child: Icon(
+                    FontAwesomeIcons.solidStar,
+                    color: Colors.amber,
+                    size: 15.0,
+                  ),
                 ),
-              ),
-              Container(
-                child: Icon(
-                  FontAwesomeIcons.solidStar,
-                  color: Colors.amber,
-                  size: 15.0,
+                Container(
+                  child: Icon(
+                    FontAwesomeIcons.solidStar,
+                    color: Colors.amber,
+                    size: 15.0,
+                  ),
                 ),
-              ),
-              Container(
-                child: Icon(
-                  FontAwesomeIcons.solidStar,
-                  color: Colors.amber,
-                  size: 15.0,
+                Container(
+                  child: Icon(
+                    FontAwesomeIcons.solidStar,
+                    color: Colors.amber,
+                    size: 15.0,
+                  ),
                 ),
-              ),
-              Container(
-                child: Icon(
-                  FontAwesomeIcons.solidStar,
-                  color: Colors.amber,
-                  size: 15.0,
+                Container(
+                  child: Icon(
+                    FontAwesomeIcons.solidStarHalf,
+                    color: Colors.amber,
+                    size: 15.0,
+                  ),
                 ),
-              ),
-              Container(
-                child: Icon(
-                  FontAwesomeIcons.solidStarHalf,
-                  color: Colors.amber,
-                  size: 15.0,
-                ),
-              ),
-               Container(
-                  child: Text(
-                "(946)",
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 18.0,
-                ),
-              )),
-            ],
-          )),
-          SizedBox(height:5.0),
-        Container(
-                  child: Text(
-                "Marocco \u00B7 \u0024\u0024 \u00B7 1.6 mi",
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 18.0,
-                ),
-              )),
-              SizedBox(height:5.0),
+                Container(
+                    child: Text(
+                      "(946)",
+                      style: TextStyle(
+                        color: Colors.black54,
+                        fontSize: 18.0,
+                      ),
+                    )),
+              ],
+            )),
+        SizedBox(height:5.0),
         Container(
             child: Text(
-          "Closed \u00B7 Opens 17:00 Thu",
-          style: TextStyle(
-              color: Colors.black54,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold),
-        )),
+              "Marocco \u00B7 \u0024\u0024 \u00B7 1.6 mi",
+              style: TextStyle(
+                color: Colors.black54,
+                fontSize: 18.0,
+              ),
+            )),
+        SizedBox(height:5.0),
+        Container(
+            child: Text(
+              "Closed \u00B7 Opens 17:00 Thu",
+              style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold),
+            )),
       ],
     );
   }
@@ -256,12 +251,20 @@ class HomePage1State extends State<HomePage1> {
       width: MediaQuery.of(context).size.width,
       child: GoogleMap(
         mapType: MapType.normal,
-        initialCameraPosition:  CameraPosition(target: LatLng(40.712776, -74.005974), zoom: 12),
+        initialCameraPosition:  CameraPosition(target: LatLng(widget.lat, widget.long), zoom: 12),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
         markers: {
-          newyork1Marker,newyork2Marker,newyork3Marker,gramercyMarker,bernardinMarker,blueMarker
+          Marker(
+            markerId: MarkerId(widget.name),
+            position: LatLng(widget.lat,widget.long),
+            infoWindow: InfoWindow(title: widget.name),
+            icon: BitmapDescriptor.defaultMarkerWithHue(
+              BitmapDescriptor.hueViolet,
+            ),
+          )
+
         },
       ),
     );
@@ -274,55 +277,5 @@ class HomePage1State extends State<HomePage1> {
   }
 }
 
-Marker gramercyMarker = Marker(
-  markerId: MarkerId('gramercy'),
-  position: LatLng(40.738380, -73.988426),
-  infoWindow: InfoWindow(title: 'Gramercy Tavern'),
-  icon: BitmapDescriptor.defaultMarkerWithHue(
-    BitmapDescriptor.hueViolet,
-  ),
-);
-
-Marker bernardinMarker = Marker(
-  markerId: MarkerId('bernardin'),
-  position: LatLng(40.761421, -73.981667),
-  infoWindow: InfoWindow(title: 'Le Bernardin'),
-  icon: BitmapDescriptor.defaultMarkerWithHue(
-    BitmapDescriptor.hueViolet,
-  ),
-);
-Marker blueMarker = Marker(
-  markerId: MarkerId('addik retaurant'),
-  position: LatLng(34.019909,-6.825881),
-  infoWindow: InfoWindow(title: 'addik restaurant'),
-  icon: BitmapDescriptor.defaultMarkerWithHue(
-    BitmapDescriptor.hueViolet,
-  ),
-);
 
 
-
-Marker newyork1Marker = Marker(
-  markerId: MarkerId('newyork1'),
-  position: LatLng(40.742451, -74.005959),
-  infoWindow: InfoWindow(title: 'Los Tacos'),
-  icon: BitmapDescriptor.defaultMarkerWithHue(
-    BitmapDescriptor.hueViolet,
-  ),
-);
-Marker newyork2Marker = Marker(
-  markerId: MarkerId('newyork2'),
-  position: LatLng(40.729640, -73.983510),
-  infoWindow: InfoWindow(title: 'Tree Bistro'),
-  icon: BitmapDescriptor.defaultMarkerWithHue(
-    BitmapDescriptor.hueViolet,
-  ),
-);
-Marker newyork3Marker = Marker(
-  markerId: MarkerId('newyork3'),
-  position: LatLng(40.719109, -74.000183),
-  infoWindow: InfoWindow(title: 'Le Coucou'),
-  icon: BitmapDescriptor.defaultMarkerWithHue(
-    BitmapDescriptor.hueViolet,
-  ),
-);
