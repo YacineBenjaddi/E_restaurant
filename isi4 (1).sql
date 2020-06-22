@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  mer. 17 juin 2020 à 03:56
--- Version du serveur :  10.4.8-MariaDB
--- Version de PHP :  7.3.11
+-- Généré le : lun. 22 juin 2020 à 04:26
+-- Version du serveur :  10.4.11-MariaDB
+-- Version de PHP : 7.4.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `isi4`
+-- Base de données : `isi4`
 --
 
 -- --------------------------------------------------------
@@ -61,7 +61,8 @@ INSERT INTO `comments` (`id`, `title`, `texto`, `name`, `rating`, `id_restaurant
 (4, 'happy', 'nice restaurant', 'jalal', 3, 3),
 (5, 'joy', 'i love the service', 'rida.essadiki@uir.ac.ma', 5, 2),
 (6, 'happy', 'nice service!!', 'rida.essadiki@uir.ac.ma', 5, 1),
-(7, 'upset', 'the food is cold', 'rida.essadiki@uir.ac.ma', 1, 1);
+(7, 'upset', 'the food is cold', 'rida.essadiki@uir.ac.ma', 1, 1),
+(8, 'sss', 's', 'yassin.benjeddi@uir.ac.ma', 5, 1);
 
 -- --------------------------------------------------------
 
@@ -73,9 +74,16 @@ CREATE TABLE `reservation` (
   `id_Reservation` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   `id_restaurant` int(11) NOT NULL,
-  `heure` varchar(10) NOT NULL,
-  `date` date NOT NULL
+  `hour` varchar(10) NOT NULL,
+  `date_res` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `reservation`
+--
+
+INSERT INTO `reservation` (`id_Reservation`, `id_user`, `id_restaurant`, `hour`, `date_res`) VALUES
+(5, 5, 1, '20:00', '12/12/2020');
 
 -- --------------------------------------------------------
 
@@ -157,7 +165,9 @@ ALTER TABLE `comments`
 -- Index pour la table `reservation`
 --
 ALTER TABLE `reservation`
-  ADD PRIMARY KEY (`id_Reservation`);
+  ADD PRIMARY KEY (`id_Reservation`),
+  ADD KEY `id_user` (`id_user`),
+  ADD KEY `id_restaurant` (`id_restaurant`);
 
 --
 -- Index pour la table `restaurant`
@@ -185,13 +195,13 @@ ALTER TABLE `avis`
 -- AUTO_INCREMENT pour la table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT pour la table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `id_Reservation` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_Reservation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `restaurant`
@@ -214,6 +224,13 @@ ALTER TABLE `user`
 --
 ALTER TABLE `comments`
   ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurant` (`id_restaurant`);
+
+--
+-- Contraintes pour la table `reservation`
+--
+ALTER TABLE `reservation`
+  ADD CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`),
+  ADD CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`id_restaurant`) REFERENCES `restaurant` (`id_restaurant`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
